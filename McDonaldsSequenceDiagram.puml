@@ -1,0 +1,48 @@
+@startuml McDonalds
+
+title McDonalds Application
+
+actor "User" as enduser
+participant "MobileApp (or) WebApp" as interface
+database "UserDB" as usDB
+database "MCDB" as McDB
+
+
+=== User Sign In ==
+autonumber 1.0
+
+enduser -> interface ++ : Opens the Applicaton
+group #lightgreen Step: Account Authentication
+    interface -> enduser ++ : displays home page and ask to sign in or create account
+    enduser -> interface : creates account or sign in using existing account
+    interface -> usDB ++ : Validates the entered credentials
+    usDB -[#green]> interface : credentials are valid, then the user is logged in
+else #lightGrey Authentication failed
+    usDB -[#red]> interface : credentials are invalid, then the user is not logged in
+    interface -> enduser : displays home page and user is asked to try again
+end
+
+
+
+=== Picking a Store and add items to cart== 
+autonumber 2.0
+
+interface -> McDB ++ : makes the api call to display the default page to select location
+McDB -> interface  : fetches the McDonald stores currently operating n JSON format
+interface -> enduser : displays the stores in UI to select
+enduser -> interface : Select the store
+interface -> McDB : makes an API call to fetch the menu in JSON format
+McDB -> interface : fetches the menu in JSON format
+interface -> enduser : displays the menu in UI to select
+enduser -> interface : selects the items and add to cart
+interface -> McDB : 
+
+=== Placing an order ==
+autonumber 3.0
+
+
+
+
+
+
+@enduml
